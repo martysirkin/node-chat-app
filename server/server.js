@@ -20,19 +20,16 @@ io.on('connection', (socket) => {
     socket.emit('newMessage', generateMessage('Admin', 'Welecome to the chat app'));
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the chat'));
 
-    socket.on('createMessage', (message) => {
-        message.createdAt = 123;
+    socket.on('createMessage', (message, callback) => {
         console.log('Received message: ', message);
         io.emit('newMessage', generateMessage(message.from, message.text));
+        callback('This is from the server.');
     });
 
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
-
 });
-
-
 
 server.listen(port, () => {
     console.log(`Started on port ${port}`);
