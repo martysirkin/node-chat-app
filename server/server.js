@@ -14,6 +14,7 @@ var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
+// New user connection handler
 io.on('connection', (socket) => {
     console.log('New user connected');
 
@@ -25,6 +26,7 @@ io.on('connection', (socket) => {
         callback('');
     });
 
+    // Press send location button handler
     socket.on('createLocationMessage', (coords) => {
         io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude))
     });
