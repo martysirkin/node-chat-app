@@ -40,21 +40,24 @@ jQuery('#message-form').on('submit', function (e) {
 });
 
 var locationButton = jQuery('#send-location');
+var sendButtonSending = 'Sending location...';
+var sendButtonWaiting = 'Send location...');
+
 locationButton.on('click', function () {
     if (!navigator.geolocation) {
         return alert('Geolocation not supported by this browser.');
     }
 
-    locationButton.attr('disabled', 'disabled').text('Sending location...');
+    locationButton.attr('disabled', 'disabled').text(sendButtonSending);
 
     navigator.geolocation.getCurrentPosition(function (position) {
         socket.emit('createLocationMessage', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         });
-        locationButton.removeAttr('disabled').text('Send location...');
+        locationButton.removeAttr('disabled').text(sendButtonWaiting);
      }, function () {
-        locationButton.removeAttr('disabled').text('Send location...');
+        locationButton.removeAttr('disabled').text(sendButtonWaiting);
         alert('Unable to fetch location.');
     });
 });
